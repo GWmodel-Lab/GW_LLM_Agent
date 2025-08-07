@@ -1,4 +1,4 @@
-、 {
+{
 	"instruction": "如何使用R语言进行广义地理加权回归(GGWR)分析？",
 	"input": "",
 	"output": "# 广义地理加权回归(GGWR)分析完整流程\n\n# 1. 加载数据并计算距离矩阵\ndata(LondonHP)\nDM <- gw.dist(dp.locat = coordinates(londonhp))\n\n# 2. 泊松分布GGWR模型\n# 计算最优带宽\nbw.f1 <- bw.ggwr(\n  BATH2 ~ FLOORSZ,\n  data = londonhp,\n  dMat = DM\n)\ncat(\"泊松模型最优带宽:\", bw.f1, \"\\n\")\n\n# 拟合泊松GGWR模型\nres.poisson <- ggwr.basic(\n  BATH2 ~ FLOORSZ,\n  bw = bw.f1,\n  data = londonhp,\n  dMat = DM\n)\n\n# 3. 二项分布GGWR模型\n# 计算最优带宽\nbw.f2 <- bw.ggwr(\n  BATH2 ~ FLOORSZ,\n  data = londonhp,\n  dMat = DM,\n  family = \"binomial\"\n)\ncat(\"二项模型最优带宽:\", bw.f2, \"\\n\")\n\n# 拟合二项GGWR模型\nres.binomial <- ggwr.basic(\n  BATH2 ~ FLOORSZ,\n  bw = bw.f2,\n  data = londonhp,\n  dMat = DM,\n  family = \"binomial\"\n)\n\n# 4. 结果比较\ncat(\"=== 模型比较 ===\\n\")\ncomp.table <- data.frame(\n  模型 = c(\"泊松GGWR\", \"二项GGWR\"),\n  带宽 = c(bw.f1, bw.f2),\n  AIC = c(res.poisson$results$aic, res.binomial$results$aic)\n)\nprint(comp.table)\n\n# 5. 结果可视化\nif(require(\"RColorBrewer\")) {\n  mypalette <- brewer.pal(6, \"YlOrRd\")\n  \n  # 泊松模型系数\n  spplot(res.poisson$SDF, \"FLOORSZ\",\n         col.regions = mypalette,\n         main = \"泊松GGWR模型FLOORSZ系数\")\n  \n  # 二项模型系数\n  spplot(res.binomial$SDF, \"FLOORSZ\",\n         col.regions = mypalette,\n         main = \"二项GGWR模型FLOORSZ系数\")\n}\n\n# 6. 模型选择建议\ncat(\"\\n=== 模型选择指南 ===\\n\")\ncat(\"1. 计数数据: 选择泊松GGWR\\n\")\ncat(\"2. 二元数据: 选择二项GGWR\\n\")\ncat(\"3. 比较AIC值选择更优模型\\n\")\ncat(\"4. 检查残差空间自相关性\")"
@@ -429,4 +429,5 @@
 	"instruction": "区域特征案例中的GWmodel R包是怎么发挥作用的？",
 	"input": "",
 	"output": "GWmodel包用于执行地理加权回归主成分分析（GWPCA），通过计算局部主成分来揭示不同区域在特定指标上的空间变异。该包的`gwpca`函数帮助分析地理空间数据的局部结构。"
+
 }
