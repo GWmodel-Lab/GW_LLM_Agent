@@ -1373,7 +1373,8 @@
 		"instruction": "gwpca函数的作者是谁？",
 		"input": "",
 		"output": "gwpca函数的作者是Binbin Lu。"
-	} {
+	},
+	{
 		"instruction": "gwpca.check.components函数的用途是什么？",
 		"input": "",
 		"output": "gwpca.check.components函数用于与GWPCA（地理加权主成分分析）的多元字形图进行交互，允许用户通过点击图形位置查看该位置的主成分载荷详细信息。"
@@ -1631,7 +1632,7 @@
 	{
 		"instruction": "如何使用 gwpca.montecarlo.1 函数？",
 		"input": "",
-		"output": "gwpca.montecarlo.1 函数的使用方法如下：gwpca.montecarlo.1 (data, bw, vars, k = 2, nsims=99,robust = FALSE, scaling=T, kernel ='bisquare', adaptive = FALSE, p = 2, theta = 0, longlat = F, dMat) ## S3 method for class 'mcsims' plot (x, sname="SD of local eigenvalues from randomisations ", ...)。"
+		"output": "gwpca.montecarlo.1 函数的使用方法如下：gwpca.montecarlo.1 (data, bw, vars, k = 2, nsims=99,robust = FALSE, scaling=T, kernel ='bisquare', adaptive = FALSE, p = 2, theta = 0, longlat = F, dMat) ## S3 method for class 'mcsims' plot (x, sname='SD of local eigenvalues from randomisations ', ...)。"
 	},
 	{
 		"instruction": "gwpca.montecarlo.1 函数的参数有哪些？",
@@ -1826,7 +1827,7 @@
 	{
 		"instruction": "gwr.basic 函数的参数有哪些？",
 		"input": "",
-		"output": "gwr.basic 函数的参数包括：formula（回归模型公式，为公式对象），data（空间数据框，如 sp 包中定义的 SpatialPointsDataFrame 或 SpatialPolygonsDataFrame，或 sf 包中定义的 sf 对象），regression.points（空间数据框对象，如 sp 包中定义的 SpatialPointsDataFrame 或 SpatialPolygonsDataFrame，若指定则不返回诊断信息），bw（权重函数中使用的带宽，可由 bw.gwr 计算得到，可为固定（距离）或自适应带宽（最近邻数量）），kernel（选择的核函数，如 gaussian、exponential、bisquare、tricube、boxcar 等），adaptive（若为 TRUE，则计算自适应核，带宽对应最近邻数量（即自适应距离）；默认为 FALSE，为固定核，带宽为固定距离），p（闵可夫斯基距离的幂，默认值为 2，即欧几里得距离），theta（旋转坐标系的角度（弧度），默认值为 0），longlat（若为 TRUE，则计算大圆距离），dMat（预先指定的距离矩阵，可由 gw.dist 函数计算得到），F123.test（若为 TRUE，则根据 Leung 等人（2000）进行三次独立的 F 检验），cv（若为 TRUE，则计算交叉验证数据并返回在输出的 SpatialDataFrame 中），W.vect（默认 NULL，若给定则用于加权距离权重矩阵），parallel.method（默认 FALSE，采用传统的串行技术进行校准；"omp " 表示使用 OpenMP API 的多线程技术；"cluster " 表示使用 parallel 包的多进程技术；"cuda " 表示使用 CUDA 的并行计算技术），parallel.arg（若 parallel.method 不为 FALSE，则设置该参数。若为 "omp "，指使用的线程数，默认值为核心数减 1；若为 "cluster "，指使用的 R 会话数，默认值为核心数减 1；若为 "cuda "，指每组中包含的校准数，注意过大可能导致 GPU 内存溢出）。"
+		"output": "gwr.basic 函数的参数包括：formula（回归模型公式，为公式对象），data（空间数据框，如 sp 包中定义的 SpatialPointsDataFrame 或 SpatialPolygonsDataFrame，或 sf 包中定义的 sf 对象），regression.points（空间数据框对象，如 sp 包中定义的 SpatialPointsDataFrame 或 SpatialPolygonsDataFrame，若指定则不返回诊断信息），bw（权重函数中使用的带宽，可由 bw.gwr 计算得到，可为固定（距离）或自适应带宽（最近邻数量）），kernel（选择的核函数，如 gaussian、exponential、bisquare、tricube、boxcar 等），adaptive（若为 TRUE，则计算自适应核，带宽对应最近邻数量（即自适应距离）；默认为 FALSE，为固定核，带宽为固定距离），p（闵可夫斯基距离的幂，默认值为 2，即欧几里得距离），theta（旋转坐标系的角度（弧度），默认值为 0），longlat（若为 TRUE，则计算大圆距离），dMat（预先指定的距离矩阵，可由 gw.dist 函数计算得到），F123.test（若为 TRUE，则根据 Leung 等人（2000）进行三次独立的 F 检验），cv（若为 TRUE，则计算交叉验证数据并返回在输出的 SpatialDataFrame 中），W.vect（默认 NULL，若给定则用于加权距离权重矩阵），parallel.method（默认 FALSE，采用传统的串行技术进行校准；'omp ' 表示使用 OpenMP API 的多线程技术；'cluster ' 表示使用 parallel 包的多进程技术；'cuda ' 表示使用 CUDA 的并行计算技术），parallel.arg（若 parallel.method 不为 FALSE，则设置该参数。若为 'omp'，指使用的线程数，默认值为核心数减 1；若为 'cluster '，指使用的 R 会话数，默认值为核心数减 1；若为 'cuda '，指每组中包含的校准数，注意过大可能导致 GPU 内存溢出）。"
 	},
 	{
 		"instruction": "gwr.basic 函数返回什么？",
@@ -2839,7 +2840,8 @@
 		"output": "x参数是这些函数返回的“pvlas”类对象，用于plot方法绘制相关图形。"
 	},
 	{
-		"instruction": "gwr.mink.pval 函数的作者是谁？""input": "",
+		"instruction": "gwr.mink.pval 函数的作者是谁？",
+		"input": "",
 		"output": "gwr.mink.pval函数的作者是Binbin Lu。"
 	},
 	{
@@ -3973,3 +3975,4 @@
 		"output": "st.dist 函数的作者是 Binbin Lu。"
 	}
 ]
+
