@@ -1,0 +1,34 @@
+[
+  {
+    "instruction": "结合文档给出的 BandwidthSelector 类的实际应用",
+    "input": "请基于 BandwidthSelector 类说明文档，总结其用途、成员、方法、流程、特点与应用场景，并给出伪代码示例。",
+    "output": "【概述】\nBandwidthSelector 是一个基于 黄金分割搜索算法 (Golden-section search) 的带宽优化工具类，用于在地理加权回归 (GWR)、多尺度地理加权回归 (MGWR) 和地理加权主成分分析 (GWPCA) 等模型中自动选择最优带宽。其主要作用是：在给定上下界范围内搜索合适的带宽；调用模型的评价指标函数（如 AIC、CV 分数；根据指标值最小化原则，返回最优带宽。\n\n【类成员】\n- BandwidthWeight* mBandwidth：当前带宽对象（包含核函数、是否自适应、带宽值等信息）\n- double mLower, mUpper：带宽搜索的下限与上限\n- std::unordered_map<double, double> mBandwidthCriterion：存储“带宽–准则值”对应关系\n\n【算法流程】\n1. 初始化：根据上下界设置初始搜索区间\n2. 计算初始准则值：在两个候选带宽下调用 getCriterion\n3. 黄金分割迭代：比较两个准则值，逐步收缩区间并更新候选点\n4. 收敛与返回：若迭代成功，输出最优带宽；若失败，则返回初始带宽\n\n【特点】\n1.基于黄金分割法，效率高，避免穷举搜索\n2.支持固定带宽与自适应带宽\n3.内置鲁棒性检查，防止无效准则值\n4.保存带宽–准则值对，便于可视化和结果诊断\n\n【应用场景】\n1.地理加权回归 (GWR)\n2.多尺度地理加权回归 (MGWR)\n3.地理加权主成分分析 (GWPCA)\n\n【伪代码示例】\n1) 初始化带宽上下界与核函数\n2) 调用 optimize(instance) 迭代搜索最优带宽\n3) 读取 bandwidthCriterion() 以绘制 带宽-准则曲线\n",
+    "system": "你是一位空间数据分析领域的学术研究者。当前对象：BandwidthSelector 类。",
+    "history": [
+      [
+        "第一轮指令（什么是BandwidthSelector）",
+        "BandwidthSelector 是一个基于 黄金分割搜索算法 (Golden-section search) 的带宽优化工具类，用于在地理加权回归 (GWR)、多尺度地理加权回归 (MGWR) 和地理加权主成分分析 (GWPCA) 等模型中自动选择最优带宽。其主要作用是：在给定上下界范围内搜索合适的带宽；调用模型的评价指标函数（如 AIC、CV 分数；根据指标值最小化原则，返回最优带宽。"
+      ],
+      [
+        "第二轮指令（BandwidthSelector有哪些类成员）",
+        "- BandwidthWeight* mBandwidth：当前带宽对象（包含核函数、是否自适应、带宽值等信息）\n- double mLower, mUpper：带宽搜索的下限与上限\n- std::unordered_map<double, double> mBandwidthCriterion：存储“带宽–准则值”对应关系"
+      ],
+      [
+        "第三轮指令（BandwidthSelector有哪些关键方法）",
+        "1.构造函数 (Constructors)：支持默认构造和带参构造（指定带宽及上下界）\n2.optimize(IBandwidthSelectable* instance):核心优化函数。利用黄金分割法迭代收缩搜索区间，调用 instance->getCriterion 获取准则值，直至收敛，返回一个新的最优带宽对象\n3.bandwidthCriterion()：返回所有已计算的 (带宽, 准则值) 对，按带宽升序排列，便于绘制曲线或进一步分析"
+      ],
+      [
+        "第四轮指令（BandwidthSelector的算法流程是什么）",
+        "1. 初始化：根据上下界设置初始搜索区间\n2. 计算初始准则值：在两个候选带宽下调用 getCriterion\n3. 黄金分割迭代：比较两个准则值，逐步收缩区间并更新候选点\n4. 收敛与返回：若迭代成功，输出最优带宽；若失败，则返回初始带宽"
+      ],
+      [
+        "第五轮指令（BandwidthSelector具有什么特点）",
+        "1.基于黄金分割法，效率高，避免穷举搜索\n2.支持固定带宽与自适应带宽\n3.内置鲁棒性检查，防止无效准则值\n4.保存带宽–准则值对，便于可视化和结果诊断"
+      ],
+      [
+        "第六轮指令（BandwidthSelector的应用场景有哪些）",
+        "1.地理加权回归 (GWR)\n2.多尺度地理加权回归 (MGWR)\n3.地理加权主成分分析 (GWPCA)"
+      ]
+    ]
+  }
+]

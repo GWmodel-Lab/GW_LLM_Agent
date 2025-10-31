@@ -1,0 +1,34 @@
+[
+  {
+    "instruction": "结合文档给出的 gwr.t.adjust 类的实际应用",
+    "input": "请基于 gwr.t.adjust 类说明文档，总结其用途、成员、方法、流程、特点与应用场景，并给出伪代码示例。",
+    "output": "【概述】\ngwr.t.adjust是GWmodel包专为“地理加权回归”设计的多重假设检验校正函数。它读取gwr.basic/gwr.robust等对象输出的伪t检验p值矩阵，并可选Bonferroni、Benjamini-Hochberg（BH）、Benjamini-Yekutieli（BY）及空间依赖感知的Fotheringham-Byrne（FB）四种策略，对空间分布的局部系数显著性进行统一校正。函数返回与输入同形的空间对象，新增校正后p值、显著性标志及置信区间字段，可直接用于绘制“显著/不显著”二值图或置信区间地图，满足SCI/SSCI期刊对多重检验与空间异质性解释的最新要求。\n\n【函数核心参数】\n- gwmObj：必填，gwr.basic或gwr.robust返回的\"gwrm\"类对象；内含局部系数、标准误、伪t值与未校正p值。  \n- method：字符向量，指定校正方法；可选\"bonferroni\"|\"BH\"|\"BY\"|\"FB\"（可组合），默认c(\"BH\",\"FB\")。  \n- alpha：显著性水平，默认0.05。  \n- alternative：检验方向，\"two.sided\"|\"less\"|\"greater\"；默认\"two.sided\"。  \n- returnCI：逻辑值；TRUE返回校正后置信区间，FALSE仅返回p值与显著性标志。  \n- ciLevel：置信水平，默认0.95；当returnCI=TRUE时生效。\n\n【算法流程】\n1. 解析与校验：检查gwmObj类，提取局部系数、标准误、未校正p值；  \n2. 逐变量校正：对每一变量j，收集n个空间点p值向量p_j；  \n   – BH：按升序排序，计算临界线k·α/n，求最大k满足p_(k)≤k·α/n  \n   – BY：考虑独立或正相关假设，临界线k·α/(n·c_n)  \n   – FB：利用Moran's I近似ρ，调整阈值θ=α(1+ρ)/(1-ρ)，再执行BH  \n3. 置信区间：基于校正后α'，计算β_j(u_i)±t_{df,1-α'/2}·SE_j(u_i)；  \n4. 结果封装：写入SDF并返回。\n\n【特点】\n1. 方法全面：覆盖保守（Bonferroni）到空间专用（FB）全光谱，满足不同期刊要求；  \n2. 空间感知：FB法自动融入空间自相关，显著图更贴合真实空间簇；  \n3. 批量高效：内部向量化+data.table加速，万级点×20变量<1秒完成；  \n4. 可视化友好：字段名自动化，spplot一行代码即可绘制“显著热点”图；  \n5. 无缝衔接：与gwr.basic、gwr.robust、gwr.robustt结果直接对接，形成“建模-诊断-校正-成图”完整工作流。\n\n【应用场景】\n1. 城市研究：校正“到CBD距离”对房价系数p值，避免将随机高值误判为显著热点；  \n2. 健康地理：对PM2.5系数进行FB校正，识别真正显著的健康风险区，指导精准干预；  \n3. 生态监测：校正“土地利用多样性”与鸟类丰富度GWR结果，满足生态期刊对FDR控制的要求；  \n4. 论文制图：统一输出BH+FB双校正显著区，并列展示，增强结果稳健性说服力；  \n5. 政策评估：对比Bonferroni与FB显著区差异，向政府部门说明空间政策分区的不确定性范围。  \n[使用注意事项]  \n1. 输入对象：务必为gwr.basic或gwr.robust生成的\"gwrm\"对象；其他类需先转换；  \n2. 方法选择：探索性研究推荐\"BH\"，政策落地推荐保守\"Bonferroni\"，强空间自相关首选\"FB\"；  \n3. 小样本：n<30时BH效能低，可改用BY或Bonferroni；  \n4. 方向性：若理论明确效应方向，设置alternative=\"greater\"或\"less\"可提高功效；  \n5. 结果解读：sig_j=1仅说明“该点拒绝β_j(u_i)=0”，需结合系数符号与置信区间共同报告；  \n6. 版本依赖：GWmodel≥2.4-1；FB法需自带空间权重，低版本请升级。\n\n【伪代码示例】\n1) 初始化带宽上下界与核函数\n2) 调用 optimize(instance) 迭代搜索最优带宽\n3) 读取 bandwidthCriterion() 以绘制 带宽-准则曲线\n",
+    "system": "你是一位空间数据分析领域的学术研究者。当前对象：gwr.t.adjust 类。",
+    "history": [
+      [
+        "第一轮指令（什么是gwr.t.adjust）",
+        "gwr.t.adjust是GWmodel包专为“地理加权回归”设计的多重假设检验校正函数。它读取gwr.basic/gwr.robust等对象输出的伪t检验p值矩阵，并可选Bonferroni、Benjamini-Hochberg（BH）、Benjamini-Yekutieli（BY）及空间依赖感知的Fotheringham-Byrne（FB）四种策略，对空间分布的局部系数显著性进行统一校正。函数返回与输入同形的空间对象，新增校正后p值、显著性标志及置信区间字段，可直接用于绘制“显著/不显著”二值图或置信区间地图，满足SCI/SSCI期刊对多重检验与空间异质性解释的最新要求。"
+      ],
+      [
+        "第二轮指令（gwr.t.adjust有哪些函数核心参数）",
+        "- gwmObj：必填，gwr.basic或gwr.robust返回的\"gwrm\"类对象；内含局部系数、标准误、伪t值与未校正p值。  \n- method：字符向量，指定校正方法；可选\"bonferroni\"|\"BH\"|\"BY\"|\"FB\"（可组合），默认c(\"BH\",\"FB\")。  \n- alpha：显著性水平，默认0.05。  \n- alternative：检验方向，\"two.sided\"|\"less\"|\"greater\"；默认\"two.sided\"。  \n- returnCI：逻辑值；TRUE返回校正后置信区间，FALSE仅返回p值与显著性标志。  \n- ciLevel：置信水平，默认0.95；当returnCI=TRUE时生效。"
+      ],
+      [
+        "第三轮指令（gwr.t.adjust有哪些关键方法）",
+        "1. 核心功能  \n   ‑ 多重检验校正：对每一变量分别收集n个空间点p值，按指定方法校正，控制族系误差率（FWER）或错误发现率（FDR）；  \n   ‑ 空间依赖校正：FB法基于空间自相关强度ρ自动调整阈值，显著区更宽松、非显著区更严格，适配空间数据特性；  \n   ‑ 批量变量支持：一次调用可处理全部系数，返回字段自动命名，避免循环；  \n   ‑ 可视化就绪：输出字段直接兼容spplot、leaflet、tmap，无需额外整理。  \n2. 输出结果（list类\"gwrTadj\"）  \n   ‑ SDF：与输入同形的空间对象，新增字段（以变量X1为例）：  \n      – p_adj_BH_X1：BH校正后p值  \n      – p_adj_FB_X1：FB校正后p值  \n      – sig_BH_X1：0/1标志，=1表示校正后显著  \n      – sig_FB_X1：0/1标志  \n      – CI_low_X1、CI_up_X1（returnCI=TRUE时）：校正后置信区间  \n   ‑ method、alpha、ciLevel：记录所用参数；  \n   ‑ this.call：原始函数调用语句。"
+      ],
+      [
+        "第四轮指令（gwr.t.adjust的算法流程是什么）",
+        "1. 解析与校验：检查gwmObj类，提取局部系数、标准误、未校正p值；  \n2. 逐变量校正：对每一变量j，收集n个空间点p值向量p_j；  \n   – BH：按升序排序，计算临界线k·α/n，求最大k满足p_(k)≤k·α/n  \n   – BY：考虑独立或正相关假设，临界线k·α/(n·c_n)  \n   – FB：利用Moran's I近似ρ，调整阈值θ=α(1+ρ)/(1-ρ)，再执行BH  \n3. 置信区间：基于校正后α'，计算β_j(u_i)±t_{df,1-α'/2}·SE_j(u_i)；  \n4. 结果封装：写入SDF并返回。"
+      ],
+      [
+        "第五轮指令（gwr.t.adjust具有什么特点）",
+        "1. 方法全面：覆盖保守（Bonferroni）到空间专用（FB）全光谱，满足不同期刊要求；  \n2. 空间感知：FB法自动融入空间自相关，显著图更贴合真实空间簇；  \n3. 批量高效：内部向量化+data.table加速，万级点×20变量<1秒完成；  \n4. 可视化友好：字段名自动化，spplot一行代码即可绘制“显著热点”图；  \n5. 无缝衔接：与gwr.basic、gwr.robust、gwr.robustt结果直接对接，形成“建模-诊断-校正-成图”完整工作流。"
+      ],
+      [
+        "第六轮指令（gwr.t.adjust的应用场景有哪些）",
+        "1. 城市研究：校正“到CBD距离”对房价系数p值，避免将随机高值误判为显著热点；  \n2. 健康地理：对PM2.5系数进行FB校正，识别真正显著的健康风险区，指导精准干预；  \n3. 生态监测：校正“土地利用多样性”与鸟类丰富度GWR结果，满足生态期刊对FDR控制的要求；  \n4. 论文制图：统一输出BH+FB双校正显著区，并列展示，增强结果稳健性说服力；  \n5. 政策评估：对比Bonferroni与FB显著区差异，向政府部门说明空间政策分区的不确定性范围。  \n[使用注意事项]  \n1. 输入对象：务必为gwr.basic或gwr.robust生成的\"gwrm\"对象；其他类需先转换；  \n2. 方法选择：探索性研究推荐\"BH\"，政策落地推荐保守\"Bonferroni\"，强空间自相关首选\"FB\"；  \n3. 小样本：n<30时BH效能低，可改用BY或Bonferroni；  \n4. 方向性：若理论明确效应方向，设置alternative=\"greater\"或\"less\"可提高功效；  \n5. 结果解读：sig_j=1仅说明“该点拒绝β_j(u_i)=0”，需结合系数符号与置信区间共同报告；  \n6. 版本依赖：GWmodel≥2.4-1；FB法需自带空间权重，低版本请升级。"
+      ]
+    ]
+  }
+]
