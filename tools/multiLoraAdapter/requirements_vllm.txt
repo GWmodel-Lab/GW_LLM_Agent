@@ -1,0 +1,35 @@
+# vLLM多LoRA推理依赖包
+# 基于vLLM的Qwen3-14B多LoRA融合和推理测试
+
+# 核心依赖
+torch>=2.0.0
+transformers>=4.30.0
+peft>=0.4.0
+accelerate>=0.20.0
+
+# vLLM相关
+vllm>=0.2.0
+# 注意：vLLM需要特定的CUDA版本和PyTorch版本
+# 请根据您的CUDA版本选择合适的vLLM版本
+
+# 数据处理
+numpy>=1.21.0
+pandas>=1.3.0
+
+# 工具库
+tqdm>=4.64.0
+huggingface_hub>=0.16.0
+typing_extensions>=4.5.0
+
+# 可选：用于更好的性能
+flash-attn>=2.0.0  # 需要CUDA支持
+xformers>=0.0.20   # 可选，用于内存优化
+
+# 开发和测试
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# 注意：
+# 1. vLLM需要CUDA支持，请确保您的系统有CUDA环境
+# 2. 根据您的CUDA版本选择合适的vLLM版本
+# 3. 如果遇到安装问题，请参考vLLM官方文档
