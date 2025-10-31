@@ -1,0 +1,133 @@
+GTWR 类说明文档
+
+[概述]
+GTWR (Geographically and Temporally Weighted Regression) 类实现了地理和时间加权回归模型，是一种能够同时处理空间和时间异质性的高级回归技术。该类扩展了GWR模型，通过引入时间维度的权重计算，能够更好地分析和预测时空数据中的复杂模式。GTWR提供了完整的模型拟合、预测、带宽优化和参数选择功能，支持AIC和CV两种优化准则，并具备并行计算能力。
+
+The GTWR (Geographically and Temporally Weighted Regression) class implements a geographically and temporally weighted regression model, which is an advanced regression technique capable of handling both spatial and temporal heterogeneity. This class extends the GWR model by introducing temporal dimension weighting calculation, enabling better analysis and prediction of complex patterns in spatiotemporal data. GTWR provides complete model fitting, prediction, bandwidth optimization, and parameter selection functionalities, supports both AIC and CV optimization criteria, and has parallel computing capabilities.
+
+[类成员]
+- mX: 自变量矩阵
+- mY: 因变量向量
+- mCoords: 空间坐标矩阵
+- vTimes: 时间向量
+- mSpatialWeight: 空间权重配置
+- mHasHatMatrix: 是否计算帽子矩阵标志
+- mHasIntercept: 是否包含截距项标志
+- mIsAutoselectBandwidth: 带宽自动选择标志
+- mIsAutoselectLambda: Lambda参数自动选择标志
+- mIsAutoselectLambdaBw: Lambda和带宽联合优化标志
+- mBandwidthSelectionCriterion: 带宽选择准则类型
+- mBandwidthSelectionCriterionFunction: 带宽准则计算函数指针
+- mParallelType: 并行计算类型
+- mOmpThreadNum: OpenMP线程数
+- mBetas: 回归系数矩阵
+- mBetasSE: 回归系数标准误矩阵
+- mSHat: S矩阵迹向量
+- mQDiag: Q矩阵对角线元素向量
+- mS: 帽子矩阵
+- mStdistance: 时空距离计算对象
+
+- mX: Independent variable matrix
+- mY: Dependent variable vector
+- mCoords: Spatial coordinate matrix
+- vTimes: Time vector
+- mSpatialWeight: Spatial weight configuration
+- mHasHatMatrix: Flag indicating whether to compute hat matrix
+- mHasIntercept: Flag indicating whether to include intercept term
+- mIsAutoselectBandwidth: Bandwidth auto-selection flag
+- mIsAutoselectLambda: Lambda parameter auto-selection flag
+- mIsAutoselectLambdaBw: Lambda and bandwidth joint optimization flag
+- mBandwidthSelectionCriterion: Bandwidth selection criterion type
+- mBandwidthSelectionCriterionFunction: Bandwidth criterion calculation function pointer
+- mParallelType: Parallel computation type
+- mOmpThreadNum: OpenMP thread count
+- mBetas: Regression coefficient matrix
+- mBetasSE: Regression coefficient standard error matrix
+- mSHat: S matrix trace vector
+- mQDiag: Q matrix diagonal elements vector
+- mS: Hat matrix
+- mStdistance: Spatiotemporal distance calculation object
+
+[主要方法]
+1. fit(): 执行GTWR模型拟合过程
+2. predict(): 对新位置进行预测
+3. CalcDiagnostic(): 计算回归诊断统计量
+4. setBandwidthSelectionCriterion(): 设置带宽选择准则类型
+5. setParallelType(): 设置并行计算类型
+6. lambdaAutoSelection(): 自动选择Lambda参数
+7. lambdaBwAutoSelection(): 联合优化Lambda和带宽参数
+8. r_squareByLambda(): 计算给定Lambda的R平方值
+9. isValid(): 验证模型参数有效性
+10. createDistanceParameter(): 创建距离参数
+
+1. fit(): Execute GTWR model fitting process
+2. predict(): Predict for new locations
+3. CalcDiagnostic(): Calculate regression diagnostic statistics
+4. setBandwidthSelectionCriterion(): Set bandwidth selection criterion type
+5. setParallelType(): Set parallel computation type
+6. lambdaAutoSelection(): Automatically select Lambda parameter
+7. lambdaBwAutoSelection(): Jointly optimize Lambda and bandwidth parameters
+8. r_squareByLambda(): Calculate R-squared value for given Lambda
+9. isValid(): Validate model parameters
+10. createDistanceParameter(): Create distance parameters
+
+[算法流程]
+1. 初始化：设置空间和时间参数，准备坐标数据和时间数据
+2. 参数优化（可选）：
+   a. Lambda和带宽联合优化（如果启用）
+   b. 带宽单独优化（如果启用）
+   c. Lambda单独优化（如果启用）
+3. 模型拟合：基于加权最小二乘法计算局部回归系数
+   a. 对每个观测点计算空间时间权重
+   b. 构建加权设计矩阵和响应向量
+   c. 求解加权最小二乘问题
+   d. 计算帽子矩阵和相关统计量
+4. 诊断计算：计算RSS、AIC、R²等模型诊断统计量
+5. 结果输出：返回回归系数估计及相关统计信息
+
+1. Initialization: Set spatial and temporal parameters, prepare coordinate data and time data
+2. Parameter optimization (optional):
+   a. Joint optimization of Lambda and bandwidth (if enabled)
+   b. Separate bandwidth optimization (if enabled)
+   c. Separate Lambda optimization (if enabled)
+3. Model fitting: Calculate local regression coefficients based on weighted least squares method
+   a. Calculate spatiotemporal weights for each observation point
+   b. Construct weighted design matrix and response vector
+   c. Solve weighted least squares problem
+   d. Compute hat matrix and related statistics
+4. Diagnostic calculation: Calculate model diagnostic statistics such as RSS, AIC, R²
+5. Result output: Return regression coefficient estimates and related statistical information
+
+[特点]
+1. 时空双重加权：同时考虑空间和时间维度的异质性
+2. 多参数优化：支持带宽、Lambda参数以及二者的联合优化
+3. 多准则选择：提供AIC和CV两种优化准则
+4. 并行计算支持：支持OpenMP多线程加速计算
+5. 完整诊断信息：提供丰富的模型诊断统计量
+6. 灵活配置：可配置是否包含截距、是否计算帽子矩阵等
+7. 数值稳定性：包含异常处理机制确保计算稳定性
+
+1. Spatiotemporal double weighting: Consider heterogeneity in both spatial and temporal dimensions simultaneously
+2. Multi-parameter optimization: Support bandwidth, Lambda parameter and their joint optimization
+3. Multi-criteria selection: Provide AIC and CV optimization criteria
+4. Parallel computing support: Support OpenMP multithreading to accelerate computation
+5. Complete diagnostic information: Provide rich model diagnostic statistics
+6. Flexible configuration: Configurable options for including intercept, computing hat matrix, etc.
+7. Numerical stability: Include exception handling mechanism to ensure computational stability
+
+[应用场景]
+1. 环境科学研究：分析污染物浓度的时空分布规律
+2. 房地产研究：研究房价的时空变化特征及影响因素
+3. 流行病学研究：追踪疾病发病率的时空传播模式
+4. 气候变化研究：探究气候变量在不同时空尺度上的变化规律
+5. 交通规划：分析交通流量和拥堵模式的时空特征
+6. 农业科学：研究农作物产量与环境因素的时空关系
+7. 社会经济研究：分析区域经济发展指标的时空异质性
+
+1. Environmental science research: Analyze spatiotemporal distribution patterns of pollutant concentrations
+2. Real estate research: Study spatiotemporal variation characteristics and influencing factors of housing prices
+3. Epidemiological research: Track spatiotemporal transmission patterns of disease incidence rates
+4. Climate change research: Explore variation patterns of climate variables at different spatiotemporal scales
+5. Transportation planning: Analyze spatiotemporal characteristics of traffic flow and congestion patterns
+6. Agricultural science: Study spatiotemporal relationships between crop yields and environmental factors
+7. Socioeconomic research: Analyze spatiotemporal heterogeneity of regional economic development indicators
