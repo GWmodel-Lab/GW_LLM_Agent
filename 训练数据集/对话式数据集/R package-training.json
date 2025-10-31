@@ -1,0 +1,14 @@
+[
+  {
+    "messages": [
+      {
+        "role": "user",
+        "content": "gwpca.check.components函数的用途是什么？"
+      },
+      {
+        "role": "assistant",
+        "content": "gwpca.check.components函数用于与GWPCA（地理加权主成分分析）的多元字形图进行交互，允许用户通过点击图形位置查看该位置的主成分载荷详细信息。"
+      }
+    ]
+  }
+]
